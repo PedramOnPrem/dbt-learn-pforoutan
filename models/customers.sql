@@ -32,7 +32,7 @@ final as (
         customer_orders.first_order_date,
         customer_orders.most_recent_order_date,
         coalesce(customer_orders.number_of_orders, 0) as number_of_orders,
-        customer_payments.amount as amount
+        customer_payments.amount as lifetime_value
     from customers
     left join customer_orders using (customer_id)
     left join customer_payments using (customer_id)
