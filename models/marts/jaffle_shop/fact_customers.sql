@@ -20,7 +20,8 @@ customer_orders as (
 customer_payments as (
     select
         customer_id,
-        sum(amount) as amount
+        sum(amount) as amount,
+        count(*) as order_quantity
     from customer_order_amount
     group by 1
 ),
@@ -32,7 +33,9 @@ final as (
         customer_orders.first_order_date,
         customer_orders.most_recent_order_date,
         coalesce(customer_orders.number_of_orders, 0) as number_of_orders,
-        customer_payments.amount as lifetime_value
+        customer_payments.amount as customer_lifetime_spend,
+        customer_payments.order_quantity as customer_order_quantity,
+        customer_payments.amount/customer_payments.order_quantity as customer_avg_spend
     from customers
     left join customer_orders using (customer_id)
     left join customer_payments using (customer_id)
