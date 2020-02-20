@@ -41,7 +41,7 @@ customer_info as (
 final as(
     select
         *,
-        customer_info.customer_lifetime_spend/customer_info.number_of_orders as customer_avg_spend
+        floor(customer_info.customer_lifetime_spend/customer_info.number_of_orders,2) as customer_avg_spend
     from customer_info
     where number_of_orders>0
 )
