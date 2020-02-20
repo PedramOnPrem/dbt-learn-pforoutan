@@ -1,4 +1,42 @@
 version: 2
+
+sources:
+  - name: stripe
+    database: raw
+    loaded_at_field: created::timestamp
+
+    freshness:
+      warn_after: 
+        count: 12
+        period: hour
+  
+    tables:
+      - name: payment
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
+  - name: jaffle_shop
+    database: raw
+    loaded_at_field: created::timestamp
+  
+    tables:
+      - name: customers
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
+      - name: orders
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
 models:
 - name: fact_customers
   description: One record per customer
